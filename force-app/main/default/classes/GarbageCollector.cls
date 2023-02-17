@@ -16,7 +16,7 @@ public abstract inherited sharing class GarbageCollector implements Database.Bat
 	// **** BATCHABLE **** //
 	public virtual void execute(Database.BatchableContext context, List<SObject> scope) {
 		try {
-			List<DmlResult> results = DatabaseLayer.Dml.doDelete(scope, false);
+			List<DmlResult> results = apexsp.DB.Dml.doDelete(scope, false);
 			DmlResult.logErrors(results);
 		} catch (Exception caughtError) {
 			final String template = 'Unexpected error (Job: {0})\n{1}';
@@ -31,7 +31,7 @@ public abstract inherited sharing class GarbageCollector implements Database.Bat
 	}
 
 	public virtual void finish(Database.BatchableContext context) {
-		Soql query = Databaselayer.Soql.newQuery(AsyncApexJob.SObjectType)
+		Soql query = apexsp.DB.Soql.newQuery(AsyncApexJob.SObjectType)
 			.selectFields(AsyncApexJob.JobItemsProcessed)
 			.selectFields(AsyncApexJob.TotalJobItems)
 			.whereCriteria(new Filter(

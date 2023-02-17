@@ -118,8 +118,8 @@ private class GarbageCollector_Test {
 		// Deleting a contact which is tied to a case will generate an error
 		Logger.settings = new Log_Setting__c(Enabled__c = true, Level__c = 'FINEST');
 		Contact contact = new Contact(LastName = 'Test');
-		Databaselayer.Dml.doInsert(contact);
-		Databaselayer.Dml.doInsert(new Case(ContactId = contact.Id));
+		apexsp.DB.Dml.doInsert(contact);
+		apexsp.DB.Dml.doInsert(new Case(ContactId = contact.Id));
 		GarbageCollector instance = new TestExtension();
 		Database.BatchableContext mockContext = null;
 		List<SObject> scope = new List<SObject>{ contact };
@@ -129,7 +129,7 @@ private class GarbageCollector_Test {
 		Test.stopTest();
 
 		List<Log_Event__e> logEvents = (List<Log_Event__e>) Dml.Published?.getAll();
-		System.assertEquals(scope?.size(), logEvents?.size(), 'Wrong # of log events: ' + Databaselayer.Dml);
+		System.assertEquals(scope?.size(), logEvents?.size(), 'Wrong # of log events: ' + apexsp.DB.Dml);
 	}
 
 	@IsTest
@@ -162,11 +162,11 @@ private class GarbageCollector_Test {
 			records.add(new Lead(Company = 'Test Company #' + (i + 1), FirstName = 'John', LastName = 'Doe'));
 		}
 		records.sort();
-		Databaselayer.Dml.doInsert(records);
+		apexsp.DB.Dml.doInsert(records);
 	}
 
 	static List<SObject> queryRecords(SObjectType objectType) {
-		return Databaselayer.Soql.newQuery(objectType).run();
+		return apexsp.DB.Soql.newQuery(objectType).run();
 	}
 
 	public class TestExtension extends GarbageCollector {

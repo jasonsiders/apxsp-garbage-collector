@@ -16,8 +16,8 @@ public abstract inherited sharing class GarbageCollector implements Database.Bat
 	// **** BATCHABLE **** //
 	public virtual void execute(Database.BatchableContext context, List<SObject> scope) {
 		try {
-			List<DmlResult> results = apexsp.DB.Dml.doDelete(scope, false);
-			DmlResult.logErrors(results);
+			List<DmlResult> results = apxsp.DB.Dml.doDelete(scope, false);
+			this.logErrors(results);
 		} catch (Exception caughtError) {
 			final String template = 'Unexpected error (Job: {0})\n{1}';
 			final String message = String.format(template, new List<String>{
@@ -25,13 +25,14 @@ public abstract inherited sharing class GarbageCollector implements Database.Bat
 				String.valueOf(caughtError)
 			});
 			Logger.error(GarbageCollector.class, message);
-			Logger.publish();
 			throw caughtError;
+		} finally {
+			Logger.publish(); 
 		}
 	}
 
 	public virtual void finish(Database.BatchableContext context) {
-		Soql query = apexsp.DB.Soql.newQuery(AsyncApexJob.SObjectType)
+		Soql query = apxsp.DB.Soql.newQuery(AsyncApexJob.SObjectType)
 			.selectFields(AsyncApexJob.JobItemsProcessed)
 			.selectFields(AsyncApexJob.TotalJobItems)
 			.whereCriteria(new Filter(
@@ -50,6 +51,14 @@ public abstract inherited sharing class GarbageCollector implements Database.Bat
 		);
 		Logger.info(GarbageCollector.class, message);
 		Logger.publish();
+	}
+
+	private void logErrors(List<DmlResult> results) {
+		for (DmlResult result : results) {
+			if (result?.isSuccess() == false) {
+				Logger.error(JSON.serializePretty(this.errors));
+			}
+		}
 	}
 
 	// **** STATIC **** //

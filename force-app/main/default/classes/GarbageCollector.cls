@@ -1,4 +1,4 @@
-public abstract inherited sharing class GarbageCollector implements Database.Batchable<SObject> {
+public abstract without sharing class GarbageCollector implements Database.Batchable<SObject> {
 	public Id jobId { get; private set; }
 	public Integer batchSize { get; private set; }
 
@@ -16,7 +16,7 @@ public abstract inherited sharing class GarbageCollector implements Database.Bat
 	// **** BATCHABLE **** //
 	public virtual void execute(Database.BatchableContext context, List<SObject> scope) {
 		try {
-			List<DmlResult> results = apxsp.DB.Dml.doDelete(scope, false);
+			List<apxsp.DmlResult> results = apxsp.DB.Dml.doDelete(scope, false);
 			this.logErrors(results);
 		} catch (Exception caughtError) {
 			final String template = 'Unexpected error (Job: {0})\n{1}';
@@ -24,10 +24,10 @@ public abstract inherited sharing class GarbageCollector implements Database.Bat
 				context?.getJobId(), 
 				String.valueOf(caughtError)
 			});
-			Logger.error(GarbageCollector.class, message);
+			apxsp.Logger.error(GarbageCollector.class, message);
 			throw caughtError;
 		} finally {
-			Logger.publish(); 
+			apxsp.Logger.publish(); 
 		}
 	}
 
@@ -49,14 +49,16 @@ public abstract inherited sharing class GarbageCollector implements Database.Bat
 			template,
 			new List<String>{ context.getJobId(), String.valueOf(numCompletedBatches), String.valueOf(numTotalBatches) }
 		);
-		Logger.info(GarbageCollector.class, message);
-		Logger.publish();
+		apxsp.Logger.info(GarbageCollector.class, message);
+		apxsp.Logger.publish();
 	}
 
 	private void logErrors(List<DmlResult> results) {
-		for (DmlResult result : results) {
+		for (apxsp.DmlResult result : results) {
 			if (result?.isSuccess() == false) {
-				Logger.error(JSON.serializePretty(this.errors));
+				List<apxsp.DmlError> errors = result?.getErrors(); 
+				String msg = JSON.serializePretty(errors); 
+				apxsp.Logger.error(msg);
 			}
 		}
 	}

@@ -116,7 +116,7 @@ private class GarbageCollector_Test {
 	static void shouldLogIndividualFailures() {
 		// If an error is registered for an individual record, log it
 		// Deleting a contact which is tied to a case will generate an error
-		Logger.settings = new Log_Setting__c(Enabled__c = true, Level__c = 'FINEST');
+		apxsp.Logger.settings = new apxsp__Log_Setting__c(Enabled__c = true, Level__c = 'FINEST');
 		Contact contact = new Contact(LastName = 'Test');
 		apxsp.DB.Dml.doInsert(contact);
 		apxsp.DB.Dml.doInsert(new Case(ContactId = contact.Id));
@@ -128,14 +128,14 @@ private class GarbageCollector_Test {
 		instance.execute(mockContext, scope);
 		Test.stopTest();
 
-		List<Log_Event__e> logEvents = (List<Log_Event__e>) Dml.Published?.getAll();
+		List<apxsp__Log_Event__e> logEvents = (List<apxsp__Log_Event__e>) Dml.Published?.getAll();
 		System.assertEquals(scope?.size(), logEvents?.size(), 'Wrong # of log events: ' + apxsp.DB.Dml);
 	}
 
 	@IsTest
 	static void shouldLogBatchFailure() {
 		// If a fatal error is thrown during the execute() method, log it
-		Logger.settings = new Log_Setting__c(Enabled__c = true, Level__c = 'FINEST');
+		apxsp.Logger.settings = new apxsp__Log_Setting__c(Enabled__c = true, Level__c = 'FINEST');
 		GarbageCollector instance = new TestExtension();
 		Database.BatchableContext mockContext = null;
 		List<SObject> scope = null;
@@ -149,9 +149,9 @@ private class GarbageCollector_Test {
 		}
 		Test.stopTest();
 
-		List<Log_Event__e> logEvents = (List<Log_Event__e>) Dml.Published?.getAll();
+		List<apxsp__Log_Event__e> logEvents = (List<apxsp__Log_Event__e>) Dml.Published?.getAll();
 		System.assertEquals(1, logEvents?.size(), 'Wrong # of log events');
-		System.assert(logEvents[0].Message__c?.startsWith('Unexpected error'), 'Wrong event logged');
+		System.assert(logEvents[0].apxsp__Message__c?.startsWith('Unexpected error'), 'Wrong event logged');
 	}
 
 	@TestSetup

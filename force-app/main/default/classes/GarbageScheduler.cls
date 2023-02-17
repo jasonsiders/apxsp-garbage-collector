@@ -23,7 +23,7 @@ public without sharing class GarbageScheduler implements System.Schedulable {
 			}
 		}
 		this.logSkippedJobs();
-		Logger.publish();
+		apxsp.Logger.publish();
 	}
 
 	private void logNewBatch(Garbage_Collection_Job__mdt jobMdt, Id batchId) {
@@ -35,7 +35,7 @@ public without sharing class GarbageScheduler implements System.Schedulable {
 			'/n' +
 			'Job Id: ' +
 			batchId;
-		Logger.info(GarbageScheduler.class, message);
+		apxsp.Logger.info(GarbageScheduler.class, message);
 	}
 
 	private void logSkippedJobs() {
@@ -48,7 +48,7 @@ public without sharing class GarbageScheduler implements System.Schedulable {
 				template,
 				new List<String>{ String.valueOf(this.skippedJobs?.size()), JSON.serializePretty(this.skippedJobs) }
 			);
-			Logger.error(GarbageScheduler.class, message);
+			apxsp.Logger.error(GarbageScheduler.class, message);
 		}
 	}
 

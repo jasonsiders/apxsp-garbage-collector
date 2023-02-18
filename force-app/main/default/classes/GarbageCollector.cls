@@ -19,11 +19,12 @@ public abstract without sharing class GarbageCollector implements Database.Batch
 			List<apxsp.DmlResult> results = apxsp.DB.Dml.doDelete(scope, false);
 			this.logErrors(results);
 		} catch (Exception caughtError) {
-			final String template = 'Unexpected error (Job: {0})\n{1}';
-			final String message = String.format(template, new List<String>{
-				context?.getJobId(), 
-				String.valueOf(caughtError)
-			});
+			final String message = String.format(
+				'Unexpected error (Job: {0})\n{1}', 
+				new List<String>{
+					context?.getJobId(), 
+					String.valueOf(caughtError)
+				});
 			apxsp.Logger.error(GarbageCollector.class, message);
 			throw caughtError;
 		} finally {
@@ -56,7 +57,7 @@ public abstract without sharing class GarbageCollector implements Database.Batch
 	private void logErrors(List<DmlResult> results) {
 		for (apxsp.DmlResult result : results) {
 			if (result?.isSuccess() == false) {
-				List<apxsp.DmlError> errors = result?.getErrors(); 
+				List<apxsp.DmlResult.Error> errors = result?.getErrors(); 
 				String msg = JSON.serializePretty(errors); 
 				apxsp.Logger.error(msg);
 			}

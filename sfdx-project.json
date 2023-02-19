@@ -1,32 +1,33 @@
 {
-    "packageDirectories": [
-        {
-            "path": "force-app",
-            "default": true,
-            "dependencies": [
-                {
-                    "package": "apex-starter-pack",
-                    "versionNumber": "0.4.0.LATEST"
-                },
-                {
-                    "package": "apxsp-logger",
-                    "versionNumber": "0.1.0.LATEST"
-                }
-            ],
-            "package": "apxsp-garbage-collector",
-            "versionName": "ver 0.1",
-            "versionNumber": "0.1.0.NEXT",
-            "versionDescription": ""
-        }
-    ],
-    "name": "apxsp-garbage-collector",
-    "namespace": "apxsp",
-    "sfdcLoginUrl": "https://login.salesforce.com",
-    "sourceApiVersion": "57.0",
-    "packageAliases": {
-        "apex-starter-pack": "0HoDn000000k9sMKAQ",
-        "apxsp-logger": "0HoDn000000k9xbKAA",
-        "apxsp-garbage-collector": "0HoDn000000k9xlKAA",
-        "apxsp-garbage-collector@0.1.0-1": "04tDn0000006m1VIAQ"
-    }
+	"packageDirectories": [
+		{
+			"path": "force-app",
+			"default": true,
+			"dependencies": [
+				{
+					"package": "apex-starter-pack",
+					"versionNumber": "0.4.0.LATEST"
+				},
+				{
+					"package": "apxsp-logger",
+					"versionNumber": "0.1.0.LATEST"
+				}
+			],
+			"package": "apxsp-garbage-collector",
+			"versionName": "ver 0.2.0",
+			"versionNumber": "0.2.0.NEXT",
+			"versionDescription": ""
+		}
+	],
+	"name": "apxsp-garbage-collector",
+	"namespace": "apxsp",
+	"sfdcLoginUrl": "https://login.salesforce.com",
+	"sourceApiVersion": "57.0",
+	"packageAliases": {
+		"apex-starter-pack": "0HoDn000000k9sMKAQ",
+		"apxsp-logger": "0HoDn000000k9xbKAA",
+		"apxsp-garbage-collector": "0HoDn000000k9xlKAA",
+		"apxsp-garbage-collector@0.1.0-1": "04tDn0000006m1VIAQ",
+		"apxsp-garbage-collector@0.2.0-1": "04tDn0000006m1zIAA"
+	}
 }

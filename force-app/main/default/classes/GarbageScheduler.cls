@@ -1,4 +1,4 @@
-public without sharing class GarbageScheduler implements System.Schedulable {
+global without sharing class GarbageScheduler implements System.Schedulable {
 	@TestVisible
 	static final Integer FLEX_QUEUE_LIMIT = 100;
 
@@ -11,7 +11,7 @@ public without sharing class GarbageScheduler implements System.Schedulable {
 	@TestVisible
 	Integer flexQueueSize = this.getFlexQueueSize();
 
-	public void execute(System.SchedulableContext context) {
+	global void execute(System.SchedulableContext context) {
 		for (Garbage_Collection_Job__mdt jobMdt : this.activeJobs) {
 			if (FLEX_QUEUE_LIMIT > flexQueueSize) {
 				GarbageCollector batchJob = GarbageCollector.createFromMetadata(jobMdt).runBatch();

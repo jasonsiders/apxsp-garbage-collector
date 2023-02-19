@@ -1,20 +1,20 @@
-public abstract without sharing class GarbageCollector implements Database.Batchable<SObject> {
-	public Id jobId { get; private set; }
-	public Integer batchSize { get; private set; }
+global abstract without sharing class GarbageCollector implements Database.Batchable<SObject> {
+	global Id jobId { get; private set; }
+	global Integer batchSize { get; private set; }
 
-	// **** INTERFACE **** //
-	public GarbageCollector runBatch() {
+	global GarbageCollector runBatch() {
 		this.jobId = Database.executeBatch(this, this.batchSize);
 		return this;
 	}
 
-	public GarbageCollector setBatchSize(Decimal batchSize) {
+	global GarbageCollector setBatchSize(Decimal batchSize) {
 		this.batchSize = Integer.valueOf(batchSize);
 		return this;
 	}
 
-	// **** BATCHABLE **** //
-	public virtual void execute(Database.BatchableContext context, List<SObject> scope) {
+	// Note: The Database.Batchable.start() method is not defined
+	// Extending classes need to implement this method.
+	global virtual void execute(Database.BatchableContext context, List<SObject> scope) {
 		try {
 			List<apxsp.DmlResult> results = apxsp.DB.Dml.doDelete(scope, false);
 			this.logErrors(results);
@@ -32,7 +32,7 @@ public abstract without sharing class GarbageCollector implements Database.Batch
 		}
 	}
 
-	public virtual void finish(Database.BatchableContext context) {
+	global virtual void finish(Database.BatchableContext context) {
 		Soql query = apxsp.DB.Soql.newQuery(AsyncApexJob.SObjectType)
 			.selectFields(AsyncApexJob.JobItemsProcessed)
 			.selectFields(AsyncApexJob.TotalJobItems)

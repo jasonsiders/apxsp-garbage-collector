@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Priority__c</fullName>
-    <description>A unique priority value for all Garbage Collection Jobs.</description>
+    <description>A priority value for all Garbage Collection Jobs. 
+Not required to be unique, to avoid deadlocks. However, the order of two jobs with the same priority value cannot be guaranteed.</description>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Priority</label>
@@ -9,5 +10,5 @@
     <required>true</required>
     <scale>0</scale>
     <type>Number</type>
-    <unique>true</unique>
+    <unique>false</unique>
 </CustomField>

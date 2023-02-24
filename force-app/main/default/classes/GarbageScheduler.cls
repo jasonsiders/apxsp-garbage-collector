@@ -23,7 +23,7 @@ global without sharing class GarbageScheduler implements System.Schedulable {
 			}
 		}
 		this.logSkippedJobs();
-		apxsp.Logger.publish();
+		Logger.publish();
 	}
 
 	private void logNewBatch(Garbage_Collection_Job__mdt jobMdt, Id batchId) {
@@ -35,7 +35,7 @@ global without sharing class GarbageScheduler implements System.Schedulable {
 			'/n' +
 			'Job Id: ' +
 			batchId;
-		apxsp.Logger.info(GarbageScheduler.class, message);
+		Logger.info(GarbageScheduler.class, message);
 	}
 
 	private void logSkippedJobs() {
@@ -48,12 +48,12 @@ global without sharing class GarbageScheduler implements System.Schedulable {
 				template,
 				new List<String>{ String.valueOf(this.skippedJobs?.size()), JSON.serializePretty(this.skippedJobs) }
 			);
-			apxsp.Logger.error(GarbageScheduler.class, message);
+			Logger.error(GarbageScheduler.class, message);
 		}
 	}
 
 	private List<Garbage_Collection_Job__mdt> getActiveJobs() {
-		Soql query = apxsp.DB.Soql
+		Soql query = DB.Soql
 			.newQuery(Garbage_Collection_Job__mdt.SObjectType)
 			.selectFields(
 				new List<SObjectField>{
@@ -70,7 +70,7 @@ global without sharing class GarbageScheduler implements System.Schedulable {
 	}
 
 	private Integer getFlexQueueSize() {
-		Soql query = apxsp.DB.Soql
+		Soql query = DB.Soql
 			.newQuery(AsyncApexJob.SObjectType)
 			.whereCriteria(
 				new Filter(

@@ -16,7 +16,7 @@ global abstract without sharing class GarbageCollector implements Database.Batch
 	// Extending classes need to implement this method.
 	global virtual void execute(Database.BatchableContext context, List<SObject> scope) {
 		try {
-			List<apxsp.DmlResult> results = apxsp.DB.Dml.doDelete(scope, false);
+			List<DmlResult> results = DB.Dml.doDelete(scope, false);
 			this.logErrors(results);
 		} catch (Exception caughtError) {
 			final String message = String.format(
@@ -25,15 +25,15 @@ global abstract without sharing class GarbageCollector implements Database.Batch
 					context?.getJobId(), 
 					String.valueOf(caughtError)
 				});
-			apxsp.Logger.error(GarbageCollector.class, message);
+			Logger.error(GarbageCollector.class, message);
 			throw caughtError;
 		} finally {
-			apxsp.Logger.publish(); 
+			Logger.publish(); 
 		}
 	}
 
 	global virtual void finish(Database.BatchableContext context) {
-		Soql query = apxsp.DB.Soql.newQuery(AsyncApexJob.SObjectType)
+		Soql query = DB.Soql.newQuery(AsyncApexJob.SObjectType)
 			.selectFields(AsyncApexJob.JobItemsProcessed)
 			.selectFields(AsyncApexJob.TotalJobItems)
 			.whereCriteria(new Filter(
@@ -50,16 +50,16 @@ global abstract without sharing class GarbageCollector implements Database.Batch
 			template,
 			new List<String>{ context.getJobId(), String.valueOf(numCompletedBatches), String.valueOf(numTotalBatches) }
 		);
-		apxsp.Logger.info(GarbageCollector.class, message);
-		apxsp.Logger.publish();
+		Logger.info(GarbageCollector.class, message);
+		Logger.publish();
 	}
 
 	private void logErrors(List<DmlResult> results) {
-		for (apxsp.DmlResult result : results) {
+		for (DmlResult result : results) {
 			if (result?.isSuccess() == false) {
-				List<apxsp.DmlResult.Error> errors = result?.getErrors(); 
+				List<DmlResult.Error> errors = result?.getErrors(); 
 				String msg = JSON.serializePretty(errors); 
-				apxsp.Logger.error(msg);
+				Logger.error(msg);
 			}
 		}
 	}

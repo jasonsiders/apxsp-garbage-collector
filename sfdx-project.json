@@ -11,6 +11,10 @@
 				{
 					"package": "apxsp-logger",
 					"versionNumber": "0.3.0.LATEST"
+				},
+				{
+					"package": "cpe-utils",
+					"versionNumber": "0.1.0.LATEST"
 				}
 			],
 			"package": "apxsp-garbage-collector",

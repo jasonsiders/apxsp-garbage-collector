@@ -6,8 +6,7 @@ global without sharing class GarbageCollectorSoql extends GarbageCollector {
 	String soql = 'SELECT Id FROM {0} WHERE ({1})';
 
 	global GarbageCollectorSoql(Garbage_Collection_Job__mdt job) {
-		String query = String.format(this.soql, new List<String>{ job?.SObjectType__c, job?.SOQL_Filter__c });
-		this.soql = String.escapeSingleQuotes(query); 
+		this.soql = String.format(this.soql, new List<String>{ job?.SObjectType__c, job?.SOQL_Filter__c }); 
 	}
 
 	public Database.QueryLocator start(Database.BatchableContext context) {
@@ -15,8 +14,8 @@ global without sharing class GarbageCollectorSoql extends GarbageCollector {
 			return Database.getQueryLocator(soql);
 		} catch (System.QueryException queryError) {
 			String message = queryError + '\nQuery:\n' + this.soql; 
-			apxsp.Logger.error(GarbageCollectorSoql.class, message); 
-			apxsp.Logger.publish();
+			Logger.error(GarbageCollectorSoql.class, message); 
+			Logger.publish();
 			throw queryError;
 		}
 	}

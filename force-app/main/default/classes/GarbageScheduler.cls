@@ -23,19 +23,17 @@ global without sharing class GarbageScheduler implements System.Schedulable {
 			}
 		}
 		this.logSkippedJobs();
-		apxsp.Logger.publish();
+		Logger.publish();
 	}
 
 	private void logNewBatch(Garbage_Collection_Job__mdt jobMdt, Id batchId) {
-		final String message =
-			jobMdt.SObjectType__c +
-			' GarbageCollector job created\n' +
-			'Job Name: ' +
-			jobMdt.DeveloperName +
-			'/n' +
-			'Job Id: ' +
-			batchId;
-		apxsp.Logger.info(GarbageScheduler.class, message);
+		final String template = '{0} GarbageCollector job created\nJob Name: {1}\nJob Id: {2}';
+		final String message = String.format(template, new List<String>{
+			jobMdt?.SObjectType__c, 
+			jobMdt?.DeveloperName,
+			batchId
+		});
+		Logger.info(GarbageScheduler.class, message);
 	}
 
 	private void logSkippedJobs() {
@@ -44,16 +42,16 @@ global without sharing class GarbageScheduler implements System.Schedulable {
 				'Skipped {0} GarbageCollection jobs, because the Apex Flex Queue is full.\n' +
 				'Please retry these jobs manually, or wait until the next scheduled run\n' +
 				'Skipped jobs: {1}';
-			final String message = String.format(
-				template,
-				new List<String>{ String.valueOf(this.skippedJobs?.size()), JSON.serializePretty(this.skippedJobs) }
-			);
-			apxsp.Logger.error(GarbageScheduler.class, message);
+			final String message = String.format(template, new List<String>{ 
+				String.valueOf(this.skippedJobs?.size()), 
+				JSON.serializePretty(this.skippedJobs) 
+			});
+			Logger.error(GarbageScheduler.class, message);
 		}
 	}
 
 	private List<Garbage_Collection_Job__mdt> getActiveJobs() {
-		Soql query = apxsp.DB.Soql
+		Soql query = DB.Soql
 			.newQuery(Garbage_Collection_Job__mdt.SObjectType)
 			.selectFields(
 				new List<SObjectField>{
@@ -70,7 +68,7 @@ global without sharing class GarbageScheduler implements System.Schedulable {
 	}
 
 	private Integer getFlexQueueSize() {
-		Soql query = apxsp.DB.Soql
+		Soql query = DB.Soql
 			.newQuery(AsyncApexJob.SObjectType)
 			.whereCriteria(
 				new Filter(

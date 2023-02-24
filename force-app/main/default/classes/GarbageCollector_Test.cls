@@ -117,8 +117,8 @@ private class GarbageCollector_Test {
 		// If an error is registered for an individual record, log it
 		// Deleting a contact which is tied to a case will generate an error
 		Contact contact = new Contact(LastName = 'Test');
-		apxsp.DB.Dml.doInsert(contact);
-		apxsp.DB.Dml.doInsert(new Case(ContactId = contact.Id));
+		DB.Dml.doInsert(contact);
+		DB.Dml.doInsert(new Case(ContactId = contact.Id));
 		GarbageCollector instance = new TestExtension();
 		Database.BatchableContext mockContext = null;
 		List<SObject> scope = new List<SObject>{ contact };
@@ -127,8 +127,8 @@ private class GarbageCollector_Test {
 		instance.execute(mockContext, scope);
 		Test.stopTest();
 
-		List<apxsp__Log_Event__e> logEvents = (List<apxsp__Log_Event__e>) Dml.Published?.getAll();
-		System.assertEquals(scope?.size(), logEvents?.size(), 'Wrong # of log events: ' + apxsp.DB.Dml);
+		List<Log_Event__e> logEvents = (List<Log_Event__e>) Dml.Published?.getAll();
+		System.assertEquals(scope?.size(), logEvents?.size(), 'Wrong # of log events: ' + DB.Dml);
 	} 
 
 	@IsTest
@@ -147,9 +147,9 @@ private class GarbageCollector_Test {
 		}
 		Test.stopTest();
 
-		List<apxsp__Log_Event__e> logEvents = (List<apxsp__Log_Event__e>) Dml.Published?.getAll();
+		List<Log_Event__e> logEvents = (List<Log_Event__e>) Dml.Published?.getAll();
 		System.assertEquals(1, logEvents?.size(), 'Wrong # of log events');
-		System.assert(logEvents[0].apxsp__Message__c?.startsWith('Unexpected error'), 'Wrong event logged');
+		System.assert(logEvents[0].Message__c?.startsWith('Unexpected error'), 'Wrong event logged');
 	} 
 
 	@TestSetup
@@ -160,16 +160,16 @@ private class GarbageCollector_Test {
 			records.add(new Lead(Company = 'Test Company #' + (i + 1), FirstName = 'John', LastName = 'Doe'));
 		}
 		records.sort();
-		apxsp.DB.Dml.doInsert(records);
+		DB.Dml.doInsert(records);
 		// Enable logging
-		insert new apxsp__Log_Setting__c(
-			apxsp__Enabled__c = true, 
-			apxsp__Level__c = 'FINEST'
+		insert new Log_Setting__c(
+			Enabled__c = true, 
+			Level__c = 'FINEST'
 		);
 	}
 
 	static List<SObject> queryRecords(SObjectType objectType) {
-		return apxsp.DB.Soql.newQuery(objectType).run();
+		return DB.Soql.newQuery(objectType).run();
 	}
 
 	public class TestExtension extends GarbageCollector {

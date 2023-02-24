@@ -42,10 +42,10 @@ global without sharing class GarbageScheduler implements System.Schedulable {
 				'Skipped {0} GarbageCollection jobs, because the Apex Flex Queue is full.\n' +
 				'Please retry these jobs manually, or wait until the next scheduled run\n' +
 				'Skipped jobs: {1}';
-			final String message = String.format(
-				template,
-				new List<String>{ String.valueOf(this.skippedJobs?.size()), JSON.serializePretty(this.skippedJobs) }
-			);
+			final String message = String.format(template, new List<String>{ 
+				String.valueOf(this.skippedJobs?.size()), 
+				JSON.serializePretty(this.skippedJobs) 
+			});
 			Logger.error(GarbageScheduler.class, message);
 		}
 	}

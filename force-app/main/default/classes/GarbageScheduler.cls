@@ -27,14 +27,12 @@ global without sharing class GarbageScheduler implements System.Schedulable {
 	}
 
 	private void logNewBatch(Garbage_Collection_Job__mdt jobMdt, Id batchId) {
-		final String message =
-			jobMdt.SObjectType__c +
-			' GarbageCollector job created\n' +
-			'Job Name: ' +
-			jobMdt.DeveloperName +
-			'/n' +
-			'Job Id: ' +
-			batchId;
+		final String template = '{0} GarbageCollector job created\nJob Name: {1}\nJob Id: {2}';
+		final String message = String.format(template, new List<String>{
+			jobMdt?.SObjectType__c, 
+			jobMdt?.DeveloperName,
+			batchId
+		});
 		Logger.info(GarbageScheduler.class, message);
 	}
 

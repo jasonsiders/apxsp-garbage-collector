@@ -180,5 +180,9 @@ private class GarbageCollector_Test {
 			records.addAll(queryRecords(Lead.SObjectType));
 			return records;
 		}
+
+		public override Type getType() {
+			return TestExtension.class;
+		}
 	}
 }

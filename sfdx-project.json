@@ -9,13 +9,13 @@
 					"versionNumber": "0.7.0.LATEST"
 				},
 				{
-					"package": "apxsp-logger",
+					"package": "apxsp-apxsp.Logger",
 					"versionNumber": "0.6.0.LATEST"
 				}
 			],
 			"package": "apxsp-garbage-collector",
-			"versionName": "ver 0.4.0",
-			"versionNumber": "0.4.0.NEXT",
+			"versionName": "ver 0.5.0",
+			"versionNumber": "0.5.0.NEXT",
 			"versionDescription": ""
 		}
 	],
@@ -25,7 +25,7 @@
 	"sourceApiVersion": "57.0",
 	"packageAliases": {
 		"apex-starter-pack": "0HoDn000000k9sMKAQ",
-		"apxsp-logger": "0HoDn000000k9xbKAA",
+		"apxsp-apxsp.Logger": "0HoDn000000k9xbKAA",
 		"cpe-utils": "0HoDn000000k9xgKAA",
 		"apxsp-garbage-collector": "0HoDn000000k9xlKAA",
 		"apxsp-garbage-collector@0.1.0-1": "04tDn0000006m1VIAQ",

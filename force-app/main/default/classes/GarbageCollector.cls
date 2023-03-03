@@ -1,6 +1,9 @@
-global abstract without sharing class GarbageCollector implements Database.Batchable<SObject> {
+global abstract without sharing class GarbageCollector implements Database.Batchable<SObject>, apxsp.TypeAware {
 	global Id jobId { get; private set; }
 	global Integer batchSize { get; private set; }
+	protected final apxsp.Logger.AdvancedOptions logOptions = new apxsp.Logger.AdvancedOptions().setSource(this.getType());  
+
+	global abstract Type getType();
 
 	global GarbageCollector runBatch() {
 		this.jobId = Database.executeBatch(this, this.batchSize);
@@ -12,8 +15,6 @@ global abstract without sharing class GarbageCollector implements Database.Batch
 		return this;
 	}
 
-	// Note: The Database.Batchable.start() method is not defined
-	// Extending classes need to implement this method.
 	global virtual void execute(Database.BatchableContext context, List<SObject> scope) {
 		try {
 			List<DmlResult> results = DB.Dml.doDelete(scope, false);
@@ -25,10 +26,10 @@ global abstract without sharing class GarbageCollector implements Database.Batch
 					context?.getJobId(), 
 					String.valueOf(caughtError)
 				});
-			Logger.error(GarbageCollector.class, message);
+			apxsp.Logger.error(this.logOptions, message);
 			throw caughtError;
 		} finally {
-			Logger.publish(); 
+			apxsp.Logger.publish(); 
 		}
 	}
 
@@ -50,8 +51,8 @@ global abstract without sharing class GarbageCollector implements Database.Batch
 			template,
 			new List<String>{ context.getJobId(), String.valueOf(numCompletedBatches), String.valueOf(numTotalBatches) }
 		);
-		Logger.info(GarbageCollector.class, message);
-		Logger.publish();
+		apxsp.Logger.info(this.logOptions, message);
+		apxsp.Logger.publish();
 	}
 
 	private void logErrors(List<DmlResult> results) {
@@ -59,7 +60,7 @@ global abstract without sharing class GarbageCollector implements Database.Batch
 			if (result?.isSuccess() == false) {
 				List<DmlResult.Error> errors = result?.getErrors(); 
 				String msg = JSON.serializePretty(errors); 
-				Logger.error(msg);
+				apxsp.Logger.error(this.logOptions, msg);
 			}
 		}
 	}

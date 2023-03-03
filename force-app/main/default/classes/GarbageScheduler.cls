@@ -1,6 +1,7 @@
 global without sharing class GarbageScheduler implements System.Schedulable {
 	@TestVisible
 	static final Integer FLEX_QUEUE_LIMIT = 100;
+	static final apxsp.Logger.AdvancedOptions LOG_OPTIONS = new apxsp.Logger.AdvancedOptions().setSource(GarbageScheduler.class);
 
 	@TestVisible
 	List<Garbage_Collection_Job__mdt> activeJobs = this.getActiveJobs();
@@ -23,7 +24,7 @@ global without sharing class GarbageScheduler implements System.Schedulable {
 			}
 		}
 		this.logSkippedJobs();
-		Logger.publish();
+		apxsp.Logger.publish();
 	}
 
 	private void logNewBatch(Garbage_Collection_Job__mdt jobMdt, Id batchId) {
@@ -33,7 +34,7 @@ global without sharing class GarbageScheduler implements System.Schedulable {
 			jobMdt?.DeveloperName,
 			batchId
 		});
-		Logger.info(GarbageScheduler.class, message);
+		apxsp.Logger.info(LOG_OPTIONS, message);
 	}
 
 	private void logSkippedJobs() {
@@ -46,7 +47,7 @@ global without sharing class GarbageScheduler implements System.Schedulable {
 				String.valueOf(this.skippedJobs?.size()), 
 				JSON.serializePretty(this.skippedJobs) 
 			});
-			Logger.error(GarbageScheduler.class, message);
+			apxsp.Logger.error(LOG_OPTIONS, message);
 		}
 	}
 

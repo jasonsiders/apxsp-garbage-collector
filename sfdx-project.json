@@ -6,20 +6,16 @@
 			"dependencies": [
 				{
 					"package": "apex-starter-pack",
-					"versionNumber": "0.5.0.LATEST"
+					"versionNumber": "0.7.0.LATEST"
 				},
 				{
-					"package": "cpe-utils",
-					"versionNumber": "0.1.0.LATEST"
-				},
-				{
-					"package": "apxsp-logger",
-					"versionNumber": "0.2.0.LATEST"
+					"package": "apxsp-apxsp.Logger",
+					"versionNumber": "0.6.0.LATEST"
 				}
 			],
 			"package": "apxsp-garbage-collector",
-			"versionName": "ver 0.4.0",
-			"versionNumber": "0.4.0.NEXT",
+			"versionName": "ver 0.5.0",
+			"versionNumber": "0.5.0.NEXT",
 			"versionDescription": ""
 		}
 	],
@@ -29,12 +25,13 @@
 	"sourceApiVersion": "57.0",
 	"packageAliases": {
 		"apex-starter-pack": "0HoDn000000k9sMKAQ",
-		"apxsp-logger": "0HoDn000000k9xbKAA",
+		"apxsp-apxsp.Logger": "0HoDn000000k9xbKAA",
 		"cpe-utils": "0HoDn000000k9xgKAA",
 		"apxsp-garbage-collector": "0HoDn000000k9xlKAA",
 		"apxsp-garbage-collector@0.1.0-1": "04tDn0000006m1VIAQ",
 		"apxsp-garbage-collector@0.2.0-1": "04tDn0000006m1zIAA",
 		"apxsp-garbage-collector@0.3.0-1": "04tDn0000006mIYIAY",
-		"apxsp-garbage-collector@0.4.0-1": "04tDn0000006mIdIAI"
+		"apxsp-garbage-collector@0.4.0-1": "04tDn0000006mIdIAI",
+		"apxsp-garbage-collector@0.5.0-1": "04tDn0000006mQxIAI"
 	}
 }

@@ -115,16 +115,16 @@ public class ArchiveExample extends apxsp.GarbageCollector {
         try {
             response = new Http().send(request);
         } catch (System.CalloutException error) {
-            apxsp.Logger.error('ArchiveExample failed to archive: ' + error);
-            apxsp.Logger.publish();
+            apxsp.apxsp.Logger.error('ArchiveExample failed to archive: ' + error);
+            apxsp.apxsp.Logger.publish();
             throw calloutError;
         }
         if (response?.getStatusCode() == 200) {
             apxsp.DatabaseLayer.Dml.doDelete(scope, false);
         } else {
             String error = response?.getBody();
-            apxsp.Logger.error('ArchiveExample failed to archive: ' + error);
-            apxsp.Logger.publish();
+            apxsp.apxsp.Logger.error('ArchiveExample failed to archive: ' + error);
+            apxsp.apxsp.Logger.publish();
         }
     }
 }

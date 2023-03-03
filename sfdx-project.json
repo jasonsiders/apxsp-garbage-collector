@@ -25,8 +25,7 @@
 	"sourceApiVersion": "57.0",
 	"packageAliases": {
 		"apex-starter-pack": "0HoDn000000k9sMKAQ",
-		"apxsp-apxsp.Logger": "0HoDn000000k9xbKAA",
-		"cpe-utils": "0HoDn000000k9xgKAA",
+		"apxsp-logger": "0HoDn000000k9xbKAA",
 		"apxsp-garbage-collector": "0HoDn000000k9xlKAA",
 		"apxsp-garbage-collector@0.1.0-1": "04tDn0000006m1VIAQ",
 		"apxsp-garbage-collector@0.2.0-1": "04tDn0000006m1zIAA",
